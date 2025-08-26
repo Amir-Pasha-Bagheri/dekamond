@@ -2,11 +2,12 @@
 
 import { useRouter } from 'next/navigation';
 import { User } from '../models/user.model';
+import withAuth from '../hoc/withAuth';
 
-export default function Page() {
+function Page() {
   const { push } = useRouter();
 
-  const user: User = JSON.stringify(window.localStorage.getItem('user'));
+  const user: User = JSON.parse(window.localStorage.getItem('user')!);
 
   const onLogout = () => {
     window.localStorage.clear();
@@ -16,7 +17,7 @@ export default function Page() {
   return (
     <div className="text-center mt-16">
       <h5 className="text-2xl">
-        Welcome <span className="underline">{user}</span>
+        Welcome <span className="underline">{user.name}</span>
       </h5>
 
       <button
@@ -28,3 +29,5 @@ export default function Page() {
     </div>
   );
 }
+
+export default withAuth(Page);
